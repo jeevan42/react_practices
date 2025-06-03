@@ -1,0 +1,62 @@
+<!-- capturing-example.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Capturing Example</title>
+  <style>
+    .box { padding: 20px; margin: 10px; border: 2px solid black; }
+    #outer { background-color: #ffdede; }
+    #middle { background-color: #d3f5ff; }
+    #inner { background-color: #d5ffd0; }
+  </style>
+</head>
+<body>
+
+  <div id="outer" class="box">
+    Outer
+    <div id="middle" class="box">
+      Middle
+      <div id="inner" class="box">
+        Inner
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Document listener in CAPTURING phase (third argument = true)
+    document.addEventListener('click', () => console.log('Document capture (capturing phase)'), true);
+
+    // Document listener in BUBBLING phase (third argument = false)
+    // Uncomment below and comment above to test bubbling on document
+    // document.addEventListener('click', () => console.log('Document capture (bubbling phase)'), false);
+
+    document.getElementById('outer').addEventListener('click', () => console.log('Outer clicked'));
+    document.getElementById('middle').addEventListener('click', () => console.log('Middle clicked'));
+    document.getElementById('inner').addEventListener('click', () => console.log('Inner clicked'));
+
+
+    /*
+    Explanation:
+
+    - With the current setting (document listener in capturing phase):
+      Clicking Inner div logs:
+        Document capture (capturing phase)
+        Inner clicked
+        Middle clicked
+        Outer clicked
+
+    - If you switch document listener to bubbling phase (comment capturing line, uncomment bubbling line):
+      Clicking Inner div logs:
+        Inner clicked
+        Middle clicked
+        Outer clicked
+        Document capture (bubbling phase)
+
+    So,
+    - Capturing phase listener fires before target and bubbling listeners.
+    - Bubbling phase listener fires after bubbling phase listeners finish.
+    */
+  </script>
+
+</body>
+</html>
