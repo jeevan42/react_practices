@@ -1,0 +1,83 @@
+<!-- event-propagation.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event Propagation Demo</title>
+  <style>
+    .box {
+      padding: 20px;
+      margin: 10px;
+      border: 2px solid black;
+    }
+    #outer { background-color: #ffdede; }
+    #middle { background-color: #d3f5ff; }
+    #inner { background-color: #d5ffd0; }
+  </style>
+</head>
+<body>
+
+  <!-- Nested boxes to demonstrate event bubbling and capturing -->
+  <div id="outer" class="box">
+    Outer
+    <div id="middle" class="box">
+      Middle
+      <div id="inner" class="box">
+        Inner
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const outer = document.getElementById('outer');
+    const middle = document.getElementById('middle');
+    const inner = document.getElementById('inner');
+
+    // Bubbling phase listener on outer div
+    outer.addEventListener('click', () => {
+      console.log('Outer clicked');
+    });
+
+    // Bubbling phase listener on middle div
+    middle.addEventListener('click', () => {
+      console.log('Middle clicked');
+    });
+
+    // Bubbling phase listener on inner div
+    inner.addEventListener('click', (e) => {
+      console.log('Inner clicked');
+
+      // Uncomment the line below to stop the event from bubbling up
+      // e.stopPropagation(); 
+    });
+
+    // Capturing phase listener on the document
+    // This will run before bubbling begins if set to true
+    document.addEventListener('click', () => {
+      console.log('Document capture');
+    }, true); // Setting true makes it run in capturing phase
+
+    /*
+      🔄 Event Propagation Flow on clicking Inner:
+      
+      1. Capturing phase (top to bottom): 
+         document → outer → middle → inner
+
+      2. Target phase:
+         The actual target element receives the event: inner
+
+      3. Bubbling phase (bottom to top): 
+         inner → middle → outer → document (if capturing = false)
+
+      So the output will be:
+        - Document capture       (because of capturing = true)
+        - Inner clicked
+        - Middle clicked
+        - Outer clicked
+
+      ❗ If capturing was set to false:
+        Then document would log last, not first
+    */
+  </script>
+
+</body>
+</html>
