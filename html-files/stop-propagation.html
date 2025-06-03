@@ -1,0 +1,74 @@
+<!-- stop-propagation.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stop Propagation Example</title>
+  <style>
+    /* Common box styles */
+    .box { padding: 20px; margin: 10px; border: 2px solid black; }
+
+    /* Background colors for each nested box */
+    #outer { background-color: #ffdede; }  /* Light red */
+    #middle { background-color: #d3f5ff; } /* Light blue */
+    #inner { background-color: #d5ffd0; }  /* Light green */
+  </style>
+</head>
+<body>
+
+  <!-- Outer box -->
+  <div id="outer" class="box">
+    Outer
+    <!-- Middle box nested inside Outer -->
+    <div id="middle" class="box">
+      Middle
+      <!-- Inner box nested inside Middle -->
+      <div id="inner" class="box">
+        Inner
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Listener on outer div
+    document.getElementById('outer').addEventListener('click', () => console.log('Outer clicked'));
+
+    // Listener on middle div
+    document.getElementById('middle').addEventListener('click', () => console.log('Middle clicked'));
+
+    // Listener on inner div
+    document.getElementById('inner').addEventListener('click', (e) => {
+      console.log('Inner clicked');
+      e.stopPropagation(); // Stop event bubbling: Prevent click event from propagating to parent elements
+    });
+
+    /*
+    Explanation:
+    - Normally, when you click on the inner div, the click event bubbles up to middle and outer divs.
+    - Here, inside the inner div's click handler, e.stopPropagation() is called.
+    - This method stops the event from propagating upwards beyond the current element.
+    - So, when you click on the inner div:
+      - "Inner clicked" is logged.
+      - Event propagation stops, so no logs from middle or outer.
+    - Clicking on middle or outer divs behaves normally, no stopping occurs there.
+
+    Expected Output on Clicking:
+
+    1. Clicking on Inner box:
+       Console logs:
+       - "Inner clicked"
+       (No further logs because event propagation is stopped.)
+
+    2. Clicking on Middle box (not Inner):
+       Console logs:
+       - "Middle clicked"
+       - "Outer clicked"
+       (Event bubbles normally from middle to outer.)
+
+    3. Clicking on Outer box (not Middle or Inner):
+       Console logs:
+       - "Outer clicked"
+    */
+  </script>
+
+</body>
+</html>
