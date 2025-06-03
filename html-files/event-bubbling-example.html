@@ -1,0 +1,83 @@
+<!-- event-bubbling-example.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Bubbling Example</title>
+  <style>
+    /* Common box style for all divs */
+    .box {
+      padding: 20px;
+      margin: 10px;
+      border: 2px solid black;
+    }
+
+    /* Specific background colors for nested divs */
+    #outer {
+      background-color: #ffdede; /* Light red */
+    }
+
+    #middle {
+      background-color: #d3f5ff; /* Light blue */
+    }
+
+    #inner {
+      background-color: #d5ffd0; /* Light green */
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Outer box div -->
+  <div id="outer" class="box">
+    Outer
+    <!-- Middle box div nested inside outer -->
+    <div id="middle" class="box">
+      Middle
+      <!-- Inner box div nested inside middle -->
+      <div id="inner" class="box">
+        Inner
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Event listeners for click events on each box
+    document.getElementById('outer').addEventListener('click', () => console.log('Outer clicked'));
+    document.getElementById('middle').addEventListener('click', () => console.log('Middle clicked'));
+    document.getElementById('inner').addEventListener('click', () => console.log('Inner clicked'));
+
+    /*
+    Explanation:
+    - Event Bubbling is a concept in DOM event handling where an event propagates from the target element
+      upwards through its ancestors in the DOM tree.
+    - Here, when you click on the innermost div (#inner), the click event first triggers on the #inner element,
+      then bubbles up to #middle, and then to #outer.
+    - Similarly, clicking on #middle triggers the click event on #middle, then bubbles to #outer.
+    - Clicking on #outer only triggers the event on #outer.
+    
+    Expected Output on Clicking:
+
+    1. Clicking on Inner box:
+       Console logs in order:
+       - "Inner clicked"
+       - "Middle clicked"
+       - "Outer clicked"
+
+    2. Clicking on Middle box (but not on Inner):
+       Console logs in order:
+       - "Middle clicked"
+       - "Outer clicked"
+
+    3. Clicking on Outer box (but not on Middle or Inner):
+       Console logs:
+       - "Outer clicked"
+    
+    This is because of event bubbling: event travels from the deepest clicked element up to the top parent.
+    */
+  </script>
+
+</body>
+
+</html>
