@@ -1,0 +1,93 @@
+<!-- capturing-bubbling-stopPropagation-demo.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Capturing, Bubbling & stopPropagation Demo</title>
+  <style>
+    .box { padding: 20px; margin: 10px; border: 2px solid black; cursor: pointer; }
+    #outer { background-color: #ffdede; }
+    #middle { background-color: #d3f5ff; }
+    #inner { background-color: #d5ffd0; }
+  </style>
+</head>
+<body>
+
+  <div id="outer" class="box">
+    Outer
+    <div id="middle" class="box">
+      Middle
+      <div id="inner" class="box">
+        Inner
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ------------ DOCUMENT LISTENERS ------------
+
+    document.addEventListener('click', () => console.log('Document CAPTURING phase'), true);
+    document.addEventListener('click', () => console.log('Document BUBBLING phase'), false);
+
+    // ------------ OUTER DIV LISTENERS ------------
+
+    document.getElementById('outer').addEventListener('click', () => console.log('Outer CAPTURING'), true);
+    document.getElementById('outer').addEventListener('click', () => console.log('Outer BUBBLING'), false);
+
+    // ------------ MIDDLE DIV LISTENERS ------------
+
+    // Capturing listener on middle div that stops propagation
+    document.getElementById('middle').addEventListener('click', (e) => {
+      console.log('Middle CAPTURING (with stopPropagation)');
+      e.stopPropagation(); // This will stop the event from going further down in capturing phase
+    }, true);
+
+    // Bubbling listener on middle div (won't fire if propagation stopped above)
+    document.getElementById('middle').addEventListener('click', () => console.log('Middle BUBBLING'), false);
+
+    // ------------ INNER DIV LISTENERS ------------
+
+    document.getElementById('inner').addEventListener('click', () => console.log('Inner CAPTURING'), true);
+
+    // Bubbling listener on inner div that stops propagation
+    document.getElementById('inner').addEventListener('click', (e) => {
+      console.log('Inner BUBBLING (with stopPropagation)');
+      e.stopPropagation(); // This will stop bubbling upwards
+    }, false);
+
+    /*
+    Explanation of stopPropagation effects:
+
+    1. If you click INNER div:
+      - Capturing phase: Document capture -> Outer capture -> Middle capture (stops propagation here)
+        So, Middle capturing's stopPropagation prevents event from reaching Inner capturing listener.
+      - Therefore, Inner CAPTURING will NOT run.
+      - Target and bubbling phase listeners WILL NOT run because propagation is stopped in capturing.
+      - Bubbling listeners won't trigger either.
+      - Result: 
+        Document CAPTURING phase
+        Outer CAPTURING
+        Middle CAPTURING (with stopPropagation)
+
+    2. If you click MIDDLE div:
+      - Middle capturing listener runs and stops propagation.
+      - So no bubbling or inner capturing happens.
+      - Result is same as above for capturing and bubbling phases on middle div click.
+
+    3. If you comment out the middle capturing stopPropagation, and click INNER div:
+      - Capturing phase: Document -> Outer -> Middle -> Inner (all capturing listeners fire)
+      - Target reached.
+      - Bubbling phase starts, Inner bubbling listener runs and stops propagation.
+      - So bubbling listeners on Middle, Outer, Document won't run.
+      - Result:
+        Document CAPTURING phase
+        Outer CAPTURING
+        Middle CAPTURING (without stopPropagation if you comment that line)
+        Inner CAPTURING
+        Inner BUBBLING (with stopPropagation)
+      
+    Try toggling stopPropagation lines in capturing/bubbling listeners to see how event flow changes!
+    */
+  </script>
+
+</body>
+</html>
