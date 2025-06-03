@@ -1,0 +1,94 @@
+<!-- capturing-bubbling-demo.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Capturing & Bubbling Demo</title>
+  <style>
+    .box { padding: 20px; margin: 10px; border: 2px solid black; cursor: pointer; }
+    #outer { background-color: #ffdede; }
+    #middle { background-color: #d3f5ff; }
+    #inner { background-color: #d5ffd0; }
+  </style>
+</head>
+<body>
+
+  <div id="outer" class="box">
+    Outer
+    <div id="middle" class="box">
+      Middle
+      <div id="inner" class="box">
+        Inner
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ------------ DOCUMENT LISTENERS ------------
+
+    // Document listener in CAPTURING phase
+    document.addEventListener('click', () => console.log('Document CAPTURING phase'), true);
+
+    // Document listener in BUBBLING phase
+    document.addEventListener('click', () => console.log('Document BUBBLING phase'), false);
+
+    // ------------ OUTER DIV LISTENERS ------------
+
+    // Capturing listener on outer div
+    document.getElementById('outer').addEventListener('click', () => console.log('Outer CAPTURING'), true);
+
+    // Bubbling listener on outer div
+    document.getElementById('outer').addEventListener('click', () => console.log('Outer BUBBLING'), false);
+
+    // ------------ MIDDLE DIV LISTENERS ------------
+
+    // Capturing listener on middle div
+    document.getElementById('middle').addEventListener('click', () => console.log('Middle CAPTURING'), true);
+
+    // Bubbling listener on middle div
+    document.getElementById('middle').addEventListener('click', () => console.log('Middle BUBBLING'), false);
+
+    // ------------ INNER DIV LISTENERS ------------
+
+    // Capturing listener on inner div
+    document.getElementById('inner').addEventListener('click', () => console.log('Inner CAPTURING'), true);
+
+    // Bubbling listener on inner div
+    document.getElementById('inner').addEventListener('click', () => console.log('Inner BUBBLING'), false);
+
+    /*
+    Explanation:
+
+    When you click on any box (e.g. Inner), the event flow happens as:
+
+    1. Capturing phase: Event travels from document down to the target.
+       - Document capturing listener
+       - Outer capturing listener
+       - Middle capturing listener
+       - Inner capturing listener
+
+    2. Target phase: The event reaches the target element.
+       (Note: In modern browsers, target phase listeners fire at the same time as bubbling/capturing depending on listener setup.)
+
+    3. Bubbling phase: Event bubbles back up from the target to the document.
+       - Inner bubbling listener
+       - Middle bubbling listener
+       - Outer bubbling listener
+       - Document bubbling listener
+
+    So for a click on Inner, the console log order will be:
+
+    Document CAPTURING phase
+    Outer CAPTURING
+    Middle CAPTURING
+    Inner CAPTURING
+    Inner BUBBLING
+    Middle BUBBLING
+    Outer BUBBLING
+    Document BUBBLING phase
+
+    You can test by clicking on Inner, Middle, or Outer and see the order change accordingly.
+    */
+  </script>
+
+</body>
+</html>
