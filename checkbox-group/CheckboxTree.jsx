@@ -1,3 +1,23 @@
+/**
+ * ✅ CheckboxTree Component
+ * 
+ * 📌 Description:
+ * A dynamic and recursive React component that renders a hierarchical tree of checkboxes 
+ * (Parent → Child → Sub-child...) with automatic parent-child syncing behavior.
+ * 
+ * 🧠 Behavior:
+ * - Each node in the tree has a `checked` state and an optional list of children.
+ * - Checking a parent auto-checks all its children recursively.
+ * - If all children of a node are checked, the parent auto-checks.
+ * - If any child is unchecked, the parent is also unchecked automatically.
+ * 
+ * 💡 Use Case:
+ * Ideal for nested permissions, categories, modules access, feature toggles, etc.
+ * This structure supports infinite nesting and clean recursive rendering.
+ * 
+ * 📁 Suitable for real-world apps, admin panels, or practice repos involving tree data and checkbox logic.
+ */
+
 import React, { useState } from 'react';
 
 const CheckboxNode = ({ node, onChange }) => {
