@@ -1,3 +1,23 @@
+/**
+ * ✅ CheckboxGroup Component
+ * 
+ * 📌 Description:
+ * This React component demonstrates a basic checkbox hierarchy system with one parent checkbox 
+ * and two child checkboxes. It ensures proper syncing between the parent and its children based 
+ * on user interaction.
+ * 
+ * 🧠 Behavior:
+ * - When **all child checkboxes** are checked manually, the parent checkbox becomes automatically checked.
+ * - When the **parent checkbox** is unchecked, all children get automatically unchecked as well.
+ * - If any **child checkbox** is unchecked, the parent gets automatically unchecked.
+ * 
+ * 💡 Use Case:
+ * This is commonly seen in forms where selecting a group of options (like permissions or categories)
+ * requires selecting all child items, or deselecting the group deselects all sub-options.
+ * 
+ * 📁 Suitable for practice repositories, demo UIs, or as a base for a more dynamic checkbox tree.
+ */
+
 import React, { useState } from 'react';
 
 const CheckboxGroup = () => {
